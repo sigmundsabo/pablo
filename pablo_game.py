@@ -1,0 +1,117 @@
+import pygame
+import random
+
+class Lap:
+    def __init__(self, szin, figura):
+        self.szin = szin
+        self.figura = figura
+
+    def pontertek(self):
+        if self.szin in ["kőr", "káró"] and self.figura == "király":
+            return -1
+        elif self.figura == "joker":
+            return 2
+        elif self.figura in ["bubi", "dáma", "király"]:
+            return 10
+        elif self.figura == "ász":
+            return 1
+        else:
+            return int(self.figura)
+
+    def kepfajl(self):
+        szinek = {"kőr": "hearts", "káró": "diamonds", "treff": "clubs", "pikk": "spades"}
+        figurak = {"ász": "A", "2": "02", "3": "03", "4": "04", "5": "05", "6": "06", "7": "07", "8": "08", "9": "09", "10": "10", "bubi": "J", "dáma": "Q", "király": "K"}
+
+        if self.figura == "joker":
+            return "kepek/card_joker_red.png"
+        else:
+            angol_szin = szinek[self.szin]
+            angol_figura = figurak[self.figura]
+            return "kepek/card_" + angol_szin + "_" + angol_figura + ".png"
+        
+class Pakli:
+    def __init__(self):
+        self.lap = []
+        szinek = ["kőr", "káró", "treff", "pikk"]
+        figurak = ["ász", "2", "3", "4", "5", "6", "7", "8", "9", "10", "bubi", "dáma", "király" ]
+        
+        for szin in szinek:
+            for figura in figurak:
+                self.lap.append(Lap(szin, figura))
+        self.lap.append(Lap("joker", "joker"))
+        self.lap.append(Lap("joker", "joker"))
+   
+    def kever(self):
+        random.shuffle(self.lap)
+
+    def huz(self):
+        elso = self.lap.pop(0)
+        return elso
+
+    def ures(self):
+        if len(self.lap) == 0:
+            return True
+        else:
+            return False
+
+class Jatekos:
+    def __init__(self, nev):
+        self.nev = nev
+        self.lapok = []
+        self.ismert = []
+
+    def kap(self, lap):
+        self.lapok.append(lap)
+        self.ismert.append(False)
+
+    def megnez(self, index):
+        self.ismert[index] = True
+        return self.lapok[index]
+
+    def csere(self, index, uj_lap):
+        regi_lap = self.lapok[index]
+        self.lapok[index] = uj_lap
+        self.ismert[index] = True
+        return regi_lap
+
+    def osszeg(self):
+        osszesen = 0
+        for lap in self.lapok:
+            osszesen += lap.pontertek()
+        return osszesen
+
+pygame.init()
+
+SZELESSEG = 800
+MAGASSAG = 500
+ablak = pygame.display.set_mode((SZELESSEG, MAGASSAG))
+pygame.display.set_caption("Pablo")
+
+ora = pygame.time.Clock()
+
+pakli = Pakli()
+pakli.kever()
+en = Jatekos("zsigi")
+for i in range(4):
+    en.kap(pakli.huz())
+
+fut = True
+while fut:
+    for esemeny in pygame.event.get():
+        if esemeny.type == pygame.QUIT:
+            fut = False
+        elif esemeny.type == pygame.KEYDOWN and esemeny.key == pygame.K_ESCAPE:
+            fut = False
+
+    ablak.fill((20, 100, 50))
+    for i in range(len(en.lapok)):
+        lap = en.lapok[i]
+        kep = pygame.image.load(lap.kepfajl())
+        kep = pygame.transform.scale(kep, (96, 96))
+        x = 172 + i * 120
+        ablak.blit(kep, (x, 374))
+
+    pygame.display.flip()
+    ora.tick(60)
+
+pygame.quit()
