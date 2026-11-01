@@ -99,6 +99,7 @@ hatlap_kep = pygame.image.load("kepek/card_back.png")
 hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
 
 fut = True
+felforditott = None
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -106,16 +107,28 @@ while fut:
         elif esemeny.type == pygame.KEYDOWN and esemeny.key == pygame.K_ESCAPE:
             fut = False
         elif esemeny.type == pygame.MOUSEBUTTONDOWN:
+            kattintott = None
             for i in range(len(en.lapok)):
                 x = 172 + i * 120
                 terulet = pygame.Rect(x, 374, 96, 96)
                 if terulet.collidepoint(esemeny.pos):
-                    print("Rákattintottál a(z)", i + 1, ". lapra")
+                    kattintott = i
+                    break
+
+            if kattintott == felforditott:
+                felforditott = None
+            else:
+                felforditott = kattintott
 
     ablak.fill((20, 100, 50))
     for i in range(len(en.lapok)):
         x = 172 + i * 120
-        ablak.blit(hatlap_kep, (x, 374))
+        if i == felforditott:
+            kep = pygame.image.load(en.lapok[i].kepfajl())
+            kep = pygame.transform.scale(kep, (96, 96))
+        else:
+            kep = hatlap_kep
+        ablak.blit(kep, (x, 374))
 
     pygame.display.flip()
     ora.tick(60)
