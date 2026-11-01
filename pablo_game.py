@@ -95,6 +95,9 @@ en = Jatekos("zsigi")
 for i in range(4):
     en.kap(pakli.huz())
 
+hatlap_kep = pygame.image.load("kepek/card_back.png")
+hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
+
 fut = True
 while fut:
     for esemeny in pygame.event.get():
@@ -102,14 +105,17 @@ while fut:
             fut = False
         elif esemeny.type == pygame.KEYDOWN and esemeny.key == pygame.K_ESCAPE:
             fut = False
+        elif esemeny.type == pygame.MOUSEBUTTONDOWN:
+            for i in range(len(en.lapok)):
+                x = 172 + i * 120
+                terulet = pygame.Rect(x, 374, 96, 96)
+                if terulet.collidepoint(esemeny.pos):
+                    print("Rákattintottál a(z)", i + 1, ". lapra")
 
     ablak.fill((20, 100, 50))
     for i in range(len(en.lapok)):
-        lap = en.lapok[i]
-        kep = pygame.image.load(lap.kepfajl())
-        kep = pygame.transform.scale(kep, (96, 96))
         x = 172 + i * 120
-        ablak.blit(kep, (x, 374))
+        ablak.blit(hatlap_kep, (x, 374))
 
     pygame.display.flip()
     ora.tick(60)
