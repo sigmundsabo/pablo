@@ -100,6 +100,7 @@ hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
 
 fut = True
 felforditott = None
+felforditas_ideje = 0
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -119,6 +120,11 @@ while fut:
                 felforditott = None
             else:
                 felforditott = kattintott
+                felforditas_ideje = pygame.time.get_ticks()
+            
+    if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
+        felforditott = None
+
 
     ablak.fill((20, 100, 50))
     for i in range(len(en.lapok)):
