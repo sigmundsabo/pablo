@@ -199,3 +199,6 @@ class Jatek:
 
         self.kiertekeles()
         print("A játék véget ért!")
+
+jatek = Jatek()
+jatek.jatszik()
