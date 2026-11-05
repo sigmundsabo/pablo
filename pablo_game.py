@@ -101,6 +101,9 @@ hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
 fut = True
 felforditott = None
 felforditas_ideje = 0
+nezes_maradt = 2
+dobopakli = []
+dobopakli.append(pakli.huz())
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -118,15 +121,20 @@ while fut:
 
             if kattintott == felforditott:
                 felforditott = None
-            else:
+            elif kattintott != None and felforditott == None and nezes_maradt > 0 and en.ismert[kattintott] == False:
                 felforditott = kattintott
                 felforditas_ideje = pygame.time.get_ticks()
+                nezes_maradt -= 1
+                en.megnez(kattintott)
+            else:
+                felforditott = None 
             
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
 
     ablak.fill((20, 100, 50))
+
     for i in range(len(en.lapok)):
         x = 172 + i * 120
         if i == felforditott:
@@ -135,6 +143,17 @@ while fut:
         else:
             kep = hatlap_kep
         ablak.blit(kep, (x, 374))
+
+    if not pakli.ures():
+        ablak.blit(hatlap_kep, (292, 202))
+
+    if len(dobopakli) > 0:
+        felso = dobopakli[-1]
+        kep = pygame.image.load(felso.kepfajl())
+        kep = pygame.transform.scale(kep, (96, 96))
+        ablak.blit(kep, (412, 202))
+    else:
+        pygame.draw.rect(ablak, (255, 255, 255), pygame.Rect(412, 202, 96, 96), 2)
 
     pygame.display.flip()
     ora.tick(60)
