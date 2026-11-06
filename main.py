@@ -113,7 +113,7 @@ class Jatek:
         huzott = self.huzas()
         print("Húztál:", huzott.szin, huzott.figura)
 
-        dontes = input("Cserélsz (c) vagy eldobod (e)? ")
+        dontes = input("Cserélsz (c) vagy eldobod (e)? ").strip().lower()
         if dontes == "c":
             valasz = input("Melyik lapodra cseréled? (1-" + str(db) + "): ")
             index = int(valasz) - 1
@@ -147,7 +147,7 @@ class Jatek:
             e_index = int(valasz) - 1
             print("Ez a lap:", ellenfel.lapok[e_index].szin, ellenfel.lapok[e_index].figura)
 
-            dontes = input("Kicseréled valamelyik lapodra? (i/n): ")
+            dontes = input("Kicseréled valamelyik lapodra? (i/n): ").strip().lower()
             if dontes == "i":
                 db = len(jatekos.lapok)
                 valasz = input("Melyik lapodra cseréled? (1-" + str(db) + "): ")
@@ -199,7 +199,7 @@ class Jatek:
         while pablozo == None:
             for jatekos in self.jatekosok:
                 self.kor(jatekos)
-                valasz = input("Pablozol? (i/n): ")
+                valasz = input("Pablozol? (i/n): ").strip().lower()
                 if valasz == "i":
                     pablozo = jatekos
                     print(jatekos.nev + " pablozott!")
