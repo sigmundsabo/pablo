@@ -16,6 +16,16 @@ class Lap:
             return 1
         else:
             return int(self.figura)
+
+    def csaphato(self, masik):
+        if self.figura == "joker":
+            return True
+        elif masik.figura == "joker":
+            return True
+        elif self.figura == masik.figura:
+            return True
+        else:
+            return False    
         
 class Pakli:
     def __init__(self):
@@ -62,6 +72,11 @@ class Jatekos:
         self.ismert[index] = True
         return regi_lap
 
+    def kivesz(self, index):
+        lap = self.lapok.pop(index)
+        self.ismert.pop(index)
+        return lap
+
     def osszeg(self):
         osszesen = 0
         for lap in self.lapok:
@@ -91,6 +106,33 @@ class Jatek:
             self.pakli.kever()
         return self.pakli.huz()
 
+    def csapas(self):
+        felso = self.dobopakli[-1]
+
+        for jatekos in self.jatekosok:
+            valasz = input(jatekos.nev + ", csapsz? (i/n): ").strip().lower()
+            if valasz == "i":
+                db = len(jatekos.lapok)
+                index = self.szam_bekeres("Melyik lapoddal csapsz? (1-" + str(db) + "): ", db)
+                lap = jatekos.megnez(index)
+
+                if lap.csaphato(felso):
+                    jatekos.kivesz(index)
+                    self.dobopakli.append(lap)
+                    print("Sikeres csapás!:", lap.szin, lap.figura)
+
+                    if len(jatekos.lapok) == 0:
+                        jatekos.kap(self.huzas())
+                        print("Elfogyott a lapod, kaptál egy újat (nem nézheted meg).")
+                    return jatekos
+                else:
+                    print("Rossz csapás!", lap.szin, lap.figura, "nem csapható a felso lapra:", felso.szin, felso.figura, " Büntetölap!")
+                    jatekos.kap(self.huzas())
+                    return None
+
+        return None
+    
+
     def szam_bekeres(self, kerdes, maximum):
         while True:
             valasz = input(kerdes).strip()
@@ -103,7 +145,7 @@ class Jatek:
             print(jatekos.nev + ", nézz meg 2 lapot!")
             db = len(jatekos.lapok)
             nezett = 0
-            while nezett < 3:
+            while nezett < 2:
                 index = self.szam_bekeres("Melyik lapot nézed meg? (1-" + str(db) + "): ", db)
                 if jatekos.ismert[index]:
                     print("Ezt a lapot már megnézted, válassz másikat!")
@@ -128,7 +170,11 @@ class Jatek:
 
         self.dobopakli.append(eldobott)
         print("Eldobtad:", eldobott.szin, eldobott.figura)
-        self.kepesseg(jatekos, eldobott)
+        csapo = self.csapas()
+        if csapo != None:
+            self.kepesseg(csapo, eldobott)
+        else:
+            self.kepesseg(jatekos, eldobott)
 
     def kepesseg(self, jatekos, lap):
         db = len(jatekos.lapok)
