@@ -88,8 +88,15 @@ class Jatek:
             felso = self.dobopakli.pop()
             self.pakli.lap = self.dobopakli
             self.dobopakli = [felso]
-            self.pakli.kevere()
+            self.pakli.kever()
         return self.pakli.huz()
+
+    def szam_bekeres(self, kerdes, maximum):
+        while True:
+            valasz = input(kerdes).strip()
+            if valasz.isdigit() and 1 <= int(valasz) <= maximum:
+                return int(valasz) - 1
+            print("Rossz válasz! Írj egy számot 1 és", maximum, "között." )
     
     def kezdo_nezes(self):
         for jatekos in self.jatekosok:
@@ -97,8 +104,7 @@ class Jatek:
             db = len(jatekos.lapok)
             nezett = 0
             while nezett < 3:
-                valasz = input("Melyik lapot nézed meg? (1-" + str(db) + "): ")
-                index = int(valasz) - 1
+                index = self.szam_bekeres("Melyik lapot nézed meg? (1-" + str(db) + "): ", db)
                 if jatekos.ismert[index]:
                     print("Ezt a lapot már megnézted, válassz másikat!")
                 else:
@@ -115,8 +121,7 @@ class Jatek:
 
         dontes = input("Cserélsz (c) vagy eldobod (e)? ").strip().lower()
         if dontes == "c":
-            valasz = input("Melyik lapodra cseréled? (1-" + str(db) + "): ")
-            index = int(valasz) - 1
+            index = self.szam_bekeres("Melyik lapodra cseréled? (1-" + str(db) + "): ", db)
             eldobott = jatekos.csere(index, huzott)
         else:
             eldobott = huzott
@@ -129,8 +134,7 @@ class Jatek:
         db = len(jatekos.lapok)
         if lap.figura == "8":
             print("8-as ! Megnézheted egy lapod.")
-            valasz = input("Melyik lapod nézed meg? (1-" + str(db) + "): ")
-            index = int(valasz) - 1
+            index = self.szam_bekeres("Melyik lapod nézed meg? (1-" + str(db) + "): ", db)
             megnezett = jatekos.megnez(index)
             print("Ez a lap:", megnezett.szin, megnezett.figura)
 
@@ -143,15 +147,13 @@ class Jatek:
                     ellenfel = j
 
             db = len(ellenfel.lapok)
-            valasz = input(ellenfel.nev + " melyik lapját nézed meg? (1-" + str(db) + "): ")
-            e_index = int(valasz) - 1
+            e_index = self.szam_bekeres(ellenfel.nev + " melyik lapját nézed meg? (1-" + str(db) + "): ", db)
             print("Ez a lap:", ellenfel.lapok[e_index].szin, ellenfel.lapok[e_index].figura)
 
             dontes = input("Kicseréled valamelyik lapodra? (i/n): ").strip().lower()
             if dontes == "i":
                 db = len(jatekos.lapok)
-                valasz = input("Melyik lapodra cseréled? (1-" + str(db) + "): ")
-                s_index = int(valasz) - 1
+                s_index = self.szam_bekeres("Melyik lapodra cseréled? (1-" + str(db) + "): ", db)
 
                 atmeneti = ellenfel.lapok[e_index]
                 ellenfel.lapok[e_index] = jatekos.lapok[s_index]
@@ -199,8 +201,8 @@ class Jatek:
         while pablozo == None:
             for jatekos in self.jatekosok:
                 self.kor(jatekos)
-                valasz = input("Pablozol? (i/n): ").strip().lower()
-                if valasz == "i":
+                dontes = input("Pablozol? (i/n): ").strip().lower()
+                if dontes == "i":
                     pablozo = jatekos
                     print(jatekos.nev + " pablozott!")
                     break
