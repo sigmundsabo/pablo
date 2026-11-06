@@ -82,21 +82,35 @@ class Jatek:
             for i in range(4):
                 jatekos.kap(self.pakli.huz())
 
+    def huzas(self):
+        if self.pakli.ures():
+            print("Elfogyott a pakli, újrakeverés!")
+            felso = self.dobopakli.pop()
+            self.pakli.lap = self.dobopakli
+            self.dobopakli = [felso]
+            self.pakli.kevere()
+        return self.pakli.huz()
+    
     def kezdo_nezes(self):
         for jatekos in self.jatekosok:
             print(jatekos.nev + ", nézz meg 2 lapot!")
             db = len(jatekos.lapok)
-            for i in range(2):
+            nezett = 0
+            while nezett < 3:
                 valasz = input("Melyik lapot nézed meg? (1-" + str(db) + "): ")
                 index = int(valasz) - 1
-                lap = jatekos.megnez(index)
-                print("Ez a lap:", lap.szin, lap.figura)
+                if jatekos.ismert[index]:
+                    print("Ezt a lapot már megnézted, válassz másikat!")
+                else:
+                    lap = jatekos.megnez(index)
+                    print("Ez a lap:", lap.szin, lap.figura)
+                    nezett += 1
 
     def kor(self, jatekos):
         print()
         print(jatekos.nev + " köre")
         db = len(jatekos.lapok)
-        huzott = self.pakli.huz()
+        huzott = self.huzas()
         print("Húztál:", huzott.szin, huzott.figura)
 
         dontes = input("Cserélsz (c) vagy eldobod (e)? ")
