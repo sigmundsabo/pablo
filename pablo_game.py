@@ -121,20 +121,22 @@ while fut:
                         kattintott = i
                         break
 
-                if kattintott == felforditott:
+                if kattintott == felforditott:#kukucskálás
                     felforditott = None
-                elif kattintott != None and felforditott == None and nezes_maradt > 0 and en.ismert[kattintott] == False:
+                elif kattintott != None and nezes_maradt > 0 and en.ismert[kattintott] == False:
                     felforditott = kattintott
                     felforditas_ideje = pygame.time.get_ticks()
                     nezes_maradt -= 1
                     en.megnez(kattintott)
                 else:
                     felforditott = None
+
             elif allapot == "huzas":
                 pakli_terulet = pygame.Rect(292, 202, 96, 96)
                 if pakli_terulet.collidepoint(esemeny.pos):
                     huzott = pakli.huz()
                     allapot = "dontes"
+
             elif allapot =="dontes":
                 kattintott = None
                 for i in range(len(en.lapok)):
@@ -155,9 +157,6 @@ while fut:
                     dobopakli.append(huzott)
                     huzott = None
                     allapot = "huzas"
-
-
-    
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
