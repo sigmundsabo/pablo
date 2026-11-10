@@ -135,6 +135,29 @@ while fut:
                 if pakli_terulet.collidepoint(esemeny.pos):
                     huzott = pakli.huz()
                     allapot = "dontes"
+            elif allapot =="dontes":
+                kattintott = None
+                for i in range(len(en.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 374, 96, 96)
+                    if terulet.collidepoint(esemeny.pos):
+                        kattintott = i
+                        break
+
+                dobo_terulet = pygame.Rect(412, 202, 96, 96)
+
+                if kattintott != None:
+                    regi = en.csere(kattintott, huzott)
+                    dobopakli.append(regi)
+                    huzott = None
+                    allapot = "huzas"
+                elif dobo_terulet.collidepoint(esemeny.pos):
+                    dobopakli.append(huzott)
+                    huzott = None
+                    allapot = "huzas"
+
+
+    
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
