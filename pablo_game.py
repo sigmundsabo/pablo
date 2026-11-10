@@ -111,6 +111,7 @@ dobopakli = []
 allapot = "nezes"
 huzott = None
 betu = pygame.font.SysFont("arial", 12)
+bot_kezdete = None
 uzenetek = {
     "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
     "huzas": "Húzz egy lapot a pakliból!",
@@ -176,9 +177,15 @@ while fut:
         felforditott = None
 
     if allapot == "bot":
-        bot_huzott = pakli.huz()
-        dobopakli.append(bot_huzott)
+        if bot_kezdete == None:
+            bot_kezdete = pygame.get.ticks()
+    elif bot_kezdete > 1000:
+        bot.huzott = pakli.huz()
+        #Bot agya
+        dobopakli.append(bot.huzott)
         allapot = "huzas"
+        bot_kezdete = None
+        
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
         allapot = "huzas"
