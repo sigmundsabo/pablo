@@ -105,6 +105,11 @@ nezes_maradt = 2
 dobopakli = []
 allapot = "nezes"
 huzott = None
+uzenetek = {
+    "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
+    "huzas": "Húzz egy lapot a pakliból!",
+    "dontes": "Cseréld ki a lapot, vagy dobd el!"
+}
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -190,6 +195,11 @@ while fut:
         kep = pygame.image.load(huzott.kepfajl())
         kep = pygame.transform.scale(kep, (96, 96))
         ablak.blit(kep, (560, 202))
+
+    if allapot == "nezes":
+        szoveg = "Még " + str(nezes_maradt) + " lapot nézhetsz meg."
+        felirat2 = batu.render(szoveg, True, (255, 255, 255))
+        ablak.blit(felirat2, (20, 20))
 
     pygame.display.flip()
     ora.tick(60)
