@@ -86,18 +86,23 @@ SZELESSEG = 800
 MAGASSAG = 500
 ablak = pygame.display.set_mode((SZELESSEG, MAGASSAG))
 pygame.display.set_caption("Pablo")
-
 ora = pygame.time.Clock()
-
 pakli = Pakli()
 pakli.kever()
+
 en = Jatekos("zsigi")
 for i in range(4):
     en.kap(pakli.huz())
 
+bot = Jatekos("bot")
+for i in range(4):
+    bot.kap(pakli.huz())
+
+bot.megnez(0)
+bot.megnez(1)
+
 hatlap_kep = pygame.image.load("kepek/card_back.png")
 hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
-
 fut = True
 felforditott = None
 felforditas_ideje = 0
@@ -111,6 +116,7 @@ uzenetek = {
     "huzas": "Húzz egy lapot a pakliból!",
     "dontes": "Cseréld ki a lapot, vagy dobd el!"
 }
+
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -127,7 +133,8 @@ while fut:
                         kattintott = i
                         break
 
-                if kattintott == felforditott:#kukucskálás
+                #kukucskálás
+                if kattintott == felforditott:
                     felforditott = None
                 elif kattintott != None and nezes_maradt > 0 and en.ismert[kattintott] == False:
                     felforditott = kattintott
@@ -162,14 +169,15 @@ while fut:
                 elif dobo_terulet.collidepoint(esemeny.pos):
                     dobopakli.append(huzott)
                     huzott = None
-                    allapot = "huzas"
+                    allapot = "bot"
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
-        allapot = "huzas"
+        allapot = "bot"
 
+    #Rajzolás
     ablak.fill((20, 100, 50))
 
     for i in range(len(en.lapok)):
@@ -179,7 +187,11 @@ while fut:
             kep = pygame.transform.scale(kep, (96, 96))
         else:
             kep = hatlap_kep
-        ablak.blit(kep, (x, 374))
+        ablak.blit(kep, (x, 336))
+
+    for i in range(len(bot.lapok)):
+        x = 172 + i * 120
+        ablak.blit(hatlap_kep, (x, 70))
 
     if not pakli.ures():
         ablak.blit(hatlap_kep, (292, 202))
