@@ -103,7 +103,8 @@ felforditott = None
 felforditas_ideje = 0
 nezes_maradt = 2
 dobopakli = []
-dobopakli.append(pakli.huz())
+allapot = "nezes"
+huzott = None
 while fut:
     for esemeny in pygame.event.get():
         if esemeny.type == pygame.QUIT:
@@ -111,27 +112,35 @@ while fut:
         elif esemeny.type == pygame.KEYDOWN and esemeny.key == pygame.K_ESCAPE:
             fut = False
         elif esemeny.type == pygame.MOUSEBUTTONDOWN:
-            kattintott = None
-            for i in range(len(en.lapok)):
-                x = 172 + i * 120
-                terulet = pygame.Rect(x, 374, 96, 96)
-                if terulet.collidepoint(esemeny.pos):
-                    kattintott = i
-                    break
+            if allapot == "nezes":
+                kattintott = None
+                for i in range(len(en.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 374, 96, 96)
+                    if terulet.collidepoint(esemeny.pos):
+                        kattintott = i
+                        break
 
-            if kattintott == felforditott:
-                felforditott = None
-            elif kattintott != None and felforditott == None and nezes_maradt > 0 and en.ismert[kattintott] == False:
-                felforditott = kattintott
-                felforditas_ideje = pygame.time.get_ticks()
-                nezes_maradt -= 1
-                en.megnez(kattintott)
-            else:
-                felforditott = None 
-            
+                if kattintott == felforditott:
+                    felforditott = None
+                elif kattintott != None and felforditott == None and nezes_maradt > 0 and en.ismert[kattintott] == False:
+                    felforditott = kattintott
+                    felforditas_ideje = pygame.time.get_ticks()
+                    nezes_maradt -= 1
+                    en.megnez(kattintott)
+                else:
+                    felforditott = None
+            elif allapot == "huzas":
+                pakli_terulet = pygame.Rect(292, 202, 96, 96)
+                if pakli_terulet.collidepoint(esemeny.pos):
+                    huzott = pakli.huz()
+                    allapot = "dontes"
+
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
+    if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
+        allapot = "huzas"
 
     ablak.fill((20, 100, 50))
 
@@ -154,6 +163,11 @@ while fut:
         ablak.blit(kep, (412, 202))
     else:
         pygame.draw.rect(ablak, (255, 255, 255), pygame.Rect(412, 202, 96, 96), 2)
+
+    if huzott!= None:
+        kep = pygame.image.load(huzott.kepfajl())
+        kep = pygame.transform.scale(kep, (96, 96))
+        ablak.blit(kep, (560, 202))
 
     pygame.display.flip()
     ora.tick(60)
