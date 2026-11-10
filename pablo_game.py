@@ -114,7 +114,8 @@ betu = pygame.font.SysFont("arial", 12)
 uzenetek = {
     "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
     "huzas": "Húzz egy lapot a pakliból!",
-    "dontes": "Cseréld ki a lapot, vagy dobd el!"
+    "dontes": "Cseréld ki a lapot, vagy dobd el!",
+    "bot": "A bot gondolkodik..."
 }
 
 while fut:
@@ -128,7 +129,7 @@ while fut:
                 kattintott = None
                 for i in range(len(en.lapok)):
                     x = 172 + i * 120
-                    terulet = pygame.Rect(x, 374, 96, 96)
+                    terulet = pygame.Rect(x, 338, 96, 96)
                     if terulet.collidepoint(esemeny.pos):
                         kattintott = i
                         break
@@ -154,7 +155,7 @@ while fut:
                 kattintott = None
                 for i in range(len(en.lapok)):
                     x = 172 + i * 120
-                    terulet = pygame.Rect(x, 374, 96, 96)
+                    terulet = pygame.Rect(x, 338, 96, 96)
                     if terulet.collidepoint(esemeny.pos):
                         kattintott = i
                         break
@@ -165,7 +166,7 @@ while fut:
                     regi = en.csere(kattintott, huzott)
                     dobopakli.append(regi)
                     huzott = None
-                    allapot = "huzas"
+                    allapot = "bot"
                 elif dobo_terulet.collidepoint(esemeny.pos):
                     dobopakli.append(huzott)
                     huzott = None
@@ -174,8 +175,13 @@ while fut:
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
+    if allapot == "bot":
+        bot_huzott = pakli.huz()
+        dobopakli.append(bot_huzott)
+        allapot = "huzas"
+
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
-        allapot = "bot"
+        allapot = "huzas"
 
     #Rajzolás
     ablak.fill((20, 100, 50))
@@ -187,7 +193,7 @@ while fut:
             kep = pygame.transform.scale(kep, (96, 96))
         else:
             kep = hatlap_kep
-        ablak.blit(kep, (x, 336))
+        ablak.blit(kep, (x, 338))
 
     for i in range(len(bot.lapok)):
         x = 172 + i * 120
