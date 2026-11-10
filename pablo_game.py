@@ -105,6 +105,7 @@ nezes_maradt = 2
 dobopakli = []
 allapot = "nezes"
 huzott = None
+betu = pygame.font.SysFont("arial", 12)
 uzenetek = {
     "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
     "huzas": "Húzz egy lapot a pakliból!",
@@ -196,10 +197,13 @@ while fut:
         kep = pygame.transform.scale(kep, (96, 96))
         ablak.blit(kep, (560, 202))
 
+    felirat = betu.render(uzenetek[allapot], True, (255, 255, 255))
+    ablak.blit(felirat, (20, 16))
+
     if allapot == "nezes":
         szoveg = "Még " + str(nezes_maradt) + " lapot nézhetsz meg."
-        felirat2 = batu.render(szoveg, True, (255, 255, 255))
-        ablak.blit(felirat2, (20, 20))
+        felirat2 = betu.render(szoveg, True, (255, 255, 255))
+        ablak.blit(felirat2, (20, 36))
 
     pygame.display.flip()
     ora.tick(60)
