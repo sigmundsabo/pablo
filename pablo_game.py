@@ -178,14 +178,27 @@ while fut:
 
     if allapot == "bot":
         if bot_kezdete == None:
-            bot_kezdete = pygame.get.ticks()
-    elif bot_kezdete > 1000:
-        bot.huzott = pakli.huz()
-        #Bot agya
-        dobopakli.append(bot.huzott)
-        allapot = "huzas"
-        bot_kezdete = None
-        
+            bot_kezdete = pygame.time.get_ticks()
+        elif pygame.time.get_ticks() - bot_kezdete > 1000:
+            bot_huzott = pakli.huz()
+
+            legrosszabb_index = None
+            legrosszabb_ertek = -999
+            for i in range(len(bot.lapok)):
+                if bot.ismert[i] and bot.lapok[i].pontertek() > legrosszabb_ertek:
+                    legrosszabb_index = i
+                    legrosszabb_ertek = bot.lapok[i].pontertek()
+
+            if legrosszabb_index != None and bot_huzott.pontertek() < legrosszabb_ertek:
+                eldobott = bot.csere(legrosszabb_index, bot_huzott)
+            else:
+                eldobott = bot_huzott
+            dobopakli.append(eldobott)
+
+            print("Bot húzott:", bot_huzott.szin, bot_huzott.figura, "| eldobta:", eldobott.szin, eldobott.figura)
+
+            allapot = "huzas"
+            bot_kezdete = None
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
         allapot = "huzas"
