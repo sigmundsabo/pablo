@@ -112,11 +112,14 @@ allapot = "nezes"
 huzott = None
 betu = pygame.font.SysFont("arial", 12)
 bot_kezdete = None
+pablozo = None
+pablo_gomb = pygame.Rect(560, 210, 120, 36)
 uzenetek = {
     "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
     "huzas": "Húzz egy lapot a pakliból!",
     "dontes": "Cseréld ki a lapot, vagy dobd el!",
-    "bot": "A bot gondolkodik..."
+    "bot": "A bot gondolkodik...",
+    "vege": "Vége a játéknak!"
 }
 
 while fut:
@@ -163,6 +166,7 @@ while fut:
 
                 dobo_terulet = pygame.Rect(412, 202, 96, 96)
 
+                #kattintás
                 if kattintott != None:
                     regi = en.csere(kattintott, huzott)
                     dobopakli.append(regi)
@@ -172,6 +176,9 @@ while fut:
                     dobopakli.append(huzott)
                     huzott = None
                     allapot = "bot"
+            elif allapot == "bot":
+                if pablozo == None and pablo_gomb.collidepoint(esemeny.pos):
+                    pablozo = "en"
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
@@ -179,7 +186,7 @@ while fut:
     if allapot == "bot":
         if bot_kezdete == None:
             bot_kezdete = pygame.time.get_ticks()
-        elif pygame.time.get_ticks() - bot_kezdete > 1000:
+        elif pygame.time.get_ticks() - bot_kezdete > 2000:
             bot_huzott = pakli.huz()
 
             legrosszabb_index = None
@@ -195,9 +202,13 @@ while fut:
                 eldobott = bot_huzott
             dobopakli.append(eldobott)
 
-            print("Bot húzott:", bot_huzott.szin, bot_huzott.figura, "| eldobta:", eldobott.szin, eldobott.figura)
+            if pablozo == "en":
+                allapot = "vege"
+            else:
+                allapot = "huzas"
 
-            allapot = "huzas"
+            # print("Bot húzott:", bot_huzott.szin, bot_huzott.figura, "| eldobta:", eldobott.szin, eldobott.figura)
+
             bot_kezdete = None
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
@@ -237,6 +248,11 @@ while fut:
 
     felirat = betu.render(uzenetek[allapot], True, (255, 255, 255))
     ablak.blit(felirat, (20, 16))
+
+    if allapot == "bot" and pablozo == None:    
+        pygame.draw.rect(ablak, (200, 50, 50), pablo_gomb)
+        felirat_p = betu.render("Pablo!", True, (255, 255, 255))
+        ablak.blit(felirat_p, (pablo_gomb.x + 10, pablo_gomb.y + 8))
 
     if allapot == "nezes":
         szoveg = "Még " + str(nezes_maradt) + " lapot nézhetsz meg."
