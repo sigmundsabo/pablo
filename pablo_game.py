@@ -88,7 +88,7 @@ ablak = pygame.display.set_mode((SZELESSEG, MAGASSAG))
 pygame.display.set_caption("Pablo")
 ora = pygame.time.Clock()
 def lap_kep(lap):
-    kep = pygame.image.load(felso.kepfajl())
+    kep = pygame.image.load(lap.kepfajl())
     kep = pygame.transform.scale(kep, (96, 96))
     return kep
 pakli = Pakli()
@@ -196,9 +196,16 @@ while fut:
             legrosszabb_index = None
             legrosszabb_ertek = -999
             for i in range(len(bot.lapok)):
+                x = 172 + i * 120
                 if bot.ismert[i] and bot.lapok[i].pontertek() > legrosszabb_ertek:
                     legrosszabb_index = i
                     legrosszabb_ertek = bot.lapok[i].pontertek()
+
+                if allapot == "vege":
+                    kep = lap_kep(bot.lapok[i])
+                else:
+                    kep = hatlap_kep
+                ablak.blit(kep, (x, 70))
 
             if legrosszabb_index != None and bot_huzott.pontertek() < legrosszabb_ertek:
                 eldobott = bot.csere(legrosszabb_index, bot_huzott)
@@ -259,6 +266,27 @@ while fut:
         szoveg = "Még " + str(nezes_maradt) + " lapot nézhetsz meg."
         felirat2 = betu.render(szoveg, True, (255, 255, 255))
         ablak.blit(felirat2, (20, 36))
+
+    if allapot == "vege":
+        en_ossz = en.osszeg()
+        bot_ossz = bot.osszeg()
+
+        if en_ossz < bot_ossz:
+            eredmeny = "Nyertél!"
+        elif en_ossz > bot_ossz:
+            eredmeny = "A bot nyert!"
+        elif len(en.lapok) < len(bot.lapok):
+            eredmeny = "Nyertél! (kevesebb lappal)"
+        elif len(en.lapok) > len(bot.lapok):
+            eredmeny = "A bot nyert! (kevesebb lappal)"
+        else:
+            eredmeny = "Döntetlen!"
+
+        szoveg = "Te: "+ str(en_ossz) + " pont | Bot: " + str(bot_ossz) + " pont"
+        felirat3 = betu.render(szoveg, True, (255, 255, 255))
+        ablak.blit(felirat3, (20, 36))
+        felirat4 = betu.render( eredmeny, True, (255, 255, 255))
+        ablak.blit(felirat4, (560, 210))
 
     pygame.display.flip()
     ora.tick(60)
