@@ -87,6 +87,10 @@ MAGASSAG = 500
 ablak = pygame.display.set_mode((SZELESSEG, MAGASSAG))
 pygame.display.set_caption("Pablo")
 ora = pygame.time.Clock()
+def lap_kep(lap):
+    kep = pygame.image.load(felso.kepfajl())
+    kep = pygame.transform.scale(kep, (96, 96))
+    return kep
 pakli = Pakli()
 pakli.kever()
 
@@ -219,9 +223,8 @@ while fut:
 
     for i in range(len(en.lapok)):
         x = 172 + i * 120
-        if i == felforditott:
-            kep = pygame.image.load(en.lapok[i].kepfajl())
-            kep = pygame.transform.scale(kep, (96, 96))
+        if i == felforditott or allapot == "vege":
+            kep = lap_kep(en.lapok[i])
         else:
             kep = hatlap_kep
         ablak.blit(kep, (x, 338))
@@ -235,15 +238,13 @@ while fut:
 
     if len(dobopakli) > 0:
         felso = dobopakli[-1]
-        kep = pygame.image.load(felso.kepfajl())
-        kep = pygame.transform.scale(kep, (96, 96))
+        kep = lap_kep(felso)
         ablak.blit(kep, (412, 202))
     else:
         pygame.draw.rect(ablak, (255, 255, 255), pygame.Rect(412, 202, 96, 96), 2)
 
     if huzott!= None:
-        kep = pygame.image.load(huzott.kepfajl())
-        kep = pygame.transform.scale(kep, (96, 96))
+        kep = lap_kep(huzott)
         ablak.blit(kep, (560, 202))
 
     felirat = betu.render(uzenetek[allapot], True, (255, 255, 255))
