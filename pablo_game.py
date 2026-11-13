@@ -186,6 +186,24 @@ while fut:
                         allapot = "nyolcas"
                     else:
                         allapot = "bot"
+            elif allapot == "bot":
+                if pablozo == None and pablo_gomb.collidepoint(esemeny.pos):
+                    pablozo = "en"
+
+            #nyolcas
+            elif allapot == "nyolcas":
+                for i in range(len(en.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 338, 96, 96)
+                    if terulet.collidepoint(esemeny.pos):
+                        felforditott = i
+                        felforditas_ideje = pygame.time.get_ticks()
+                        en.megnez(i)
+                        allapot = "nyolcas_nez"
+                        break
+
+            elif allapot == "nyolcas_nez":
+                felforditott = None
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
@@ -228,23 +246,12 @@ while fut:
                 allapot = "huzas"
 
             bot_kezdete = None
-    #nyolcas
-    elif allapot == "nyolcas":
-        for i in range(len(en.lapok)):
-            x = 172 +  i * 120
-            terulet = pygame.Rect(x, 338, 96, 96)
-            if terulet.collidepoint(esemeny.pos):
-                felforditott = en.lapok[i]
-                felforditas_ideje = pygame.time.get_ticks()
-                en.megnez(i)
-                allapot = "nyolcas_nez"
-                break
-
-    elif allapot == "nyolcas_nez":
-        felforditott = None
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
         allapot = "huzas"
+
+    if allapot == "nyolcas_nez" and felforditott == None:
+        allapot = "bot"
 
     #Rajzolás
     ablak.fill((20, 100, 50))
