@@ -188,7 +188,9 @@ while fut:
         felforditott = None
 
     if allapot == "bot":
-        if bot_kezdete == None:
+        if pablozo == "bot":
+            allapot = "vege"
+        elif bot_kezdete == None:
             bot_kezdete = pygame.time.get_ticks()
         elif pygame.time.get_ticks() - bot_kezdete > 2000:
             bot_huzott = pakli.huz()
@@ -205,6 +207,7 @@ while fut:
             else:
                 eldobott = bot_huzott
             dobopakli.append(eldobott)
+
             if pablozo == None:
                 becsult = 0
                 for i in range(len(bot.lapok)):
@@ -212,15 +215,13 @@ while fut:
                         becsult += bot.lapok[i].pontertek()
                     else:
                         becsult += 6
-                if bot.lapok.pontertek() <= 10:
+                if becsult <= 16:
                     pablozo = "bot"
 
             if pablozo == "en":
                 allapot = "vege"
             else:
                 allapot = "huzas"
-
-            # print("Bot húzott:", bot_huzott.szin, bot_huzott.figura, "| eldobta:", eldobott.szin, eldobott.figura)
 
             bot_kezdete = None
 
@@ -294,6 +295,10 @@ while fut:
         ablak.blit(felirat3, (20, 36))
         felirat4 = betu.render( eredmeny, True, (255, 255, 255))
         ablak.blit(felirat4, (560, 210))
+
+    if pablozo == "bot" and allapot != "vege":
+        felirat5 = betu.render("A bot bemondta: PABLO! Ez az utolsó köröd.", True, (255, 255, 255))
+        ablak.blit(felirat5, (20, 36))
 
     pygame.display.flip()
     ora.tick(60)
