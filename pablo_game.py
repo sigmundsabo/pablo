@@ -171,18 +171,19 @@ while fut:
                 dobo_terulet = pygame.Rect(412, 202, 96, 96)
 
                 #kattintás
+                eldobott_lap = None
                 if kattintott != None:
-                    regi = en.csere(kattintott, huzott)
-                    dobopakli.append(regi)
-                    huzott = None
-                    allapot = "bot"
+                    eldobott_lap = en.csere(kattintott, huzott)
                 elif dobo_terulet.collidepoint(esemeny.pos):
-                    dobopakli.append(huzott)
+                    eldobott_lap = huzott
+
+                if eldobott_lap != None:
+                    dobopakli.append(eldobott_lap)
                     huzott = None
-                    allapot = "bot"
-            elif allapot == "bot":
-                if pablozo == None and pablo_gomb.collidepoint(esemeny.pos):
-                    pablozo = "en"
+                    if eldobott_lap.figura == "8":
+                        allapot = "nyolcas"
+                    else:
+                        allapot = "bot"
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
