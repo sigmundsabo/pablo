@@ -196,16 +196,9 @@ while fut:
             legrosszabb_index = None
             legrosszabb_ertek = -999
             for i in range(len(bot.lapok)):
-                x = 172 + i * 120
                 if bot.ismert[i] and bot.lapok[i].pontertek() > legrosszabb_ertek:
                     legrosszabb_index = i
                     legrosszabb_ertek = bot.lapok[i].pontertek()
-
-                if allapot == "vege":
-                    kep = lap_kep(bot.lapok[i])
-                else:
-                    kep = hatlap_kep
-                ablak.blit(kep, (x, 70))
 
             if legrosszabb_index != None and bot_huzott.pontertek() < legrosszabb_ertek:
                 eldobott = bot.csere(legrosszabb_index, bot_huzott)
@@ -238,7 +231,12 @@ while fut:
 
     for i in range(len(bot.lapok)):
         x = 172 + i * 120
-        ablak.blit(hatlap_kep, (x, 70))
+        if allapot == "vege":
+            kep = lap_kep(bot.lapok[i])
+        else:
+            kep = hatlap_kep
+        ablak.blit(kep, (x, 70))
+
 
     if not pakli.ures():
         ablak.blit(hatlap_kep, (292, 202))
