@@ -205,6 +205,15 @@ while fut:
             else:
                 eldobott = bot_huzott
             dobopakli.append(eldobott)
+            if pablozo == None:
+                becsult = 0
+                for i in range(len(bot.lapok)):
+                    if bot.ismert[i]:
+                        becsult += bot.lapok[i].pontertek()
+                    else:
+                        becsult += 6
+                if bot.lapok.pontertek() <= 10:
+                    pablozo = "bot"
 
             if pablozo == "en":
                 allapot = "vege"
