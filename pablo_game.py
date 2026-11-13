@@ -123,7 +123,9 @@ uzenetek = {
     "huzas": "Húzz egy lapot a pakliból!",
     "dontes": "Cseréld ki a lapot, vagy dobd el!",
     "bot": "A bot gondolkodik...",
-    "vege": "Vége a játéknak!"
+    "vege": "Vége a játéknak!",
+    "nyolcas": "8-as! Kattints egy lapodra, és megnézheted.",
+    "nyolcas_nez": "Jegyezd meg! Kattints, ha megvan."
 }
 
 while fut:
@@ -188,6 +190,7 @@ while fut:
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
+    #bot
     if allapot == "bot":
         if pablozo == "bot":
             allapot = "vege"
@@ -225,6 +228,20 @@ while fut:
                 allapot = "huzas"
 
             bot_kezdete = None
+    #nyolcas
+    elif allapot == "nyolcas":
+        for i in range(len(en.lapok)):
+            x = 172 +  i * 120
+            terulet = pygame.Rect(x, 338, 96, 96)
+            if terulet.collidepoint(esemeny.pos):
+                felforditott = en.lapok[i]
+                felforditas_ideje = pygame.time.get_ticks()
+                en.megnez(i)
+                allapot = "nyolcas_nez"
+                break
+
+    elif allapot == "nyolcas_nez":
+        felforditott = None
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
         allapot = "huzas"
