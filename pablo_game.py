@@ -109,6 +109,7 @@ hatlap_kep = pygame.image.load("kepek/card_back.png")
 hatlap_kep = pygame.transform.scale(hatlap_kep, (96, 96))
 fut = True
 felforditott = None
+bot_felforditott = None
 felforditas_ideje = 0
 nezes_maradt = 2
 dobopakli = []
@@ -125,7 +126,9 @@ uzenetek = {
     "bot": "A bot gondolkodik...",
     "vege": "Vége a játéknak!",
     "nyolcas": "8-as! Kattints egy lapodra, és megnézheted.",
-    "nyolcas_nez": "Jegyezd meg! Kattints, ha megvan."
+    "nyolcas_nez": "Jegyezd meg! Kattints, ha megvan.",
+    "kilences": "9-es! Kattints egy lapjára a botnak, megnézheted.",
+    "kilences_nez": "Cseréld ki egy lapodra, ha szeretnéd! Kattints, ha megvan."
 }
 
 while fut:
@@ -184,6 +187,8 @@ while fut:
                     huzott = None
                     if eldobott_lap.figura == "8":
                         allapot = "nyolcas"
+                    elif eldobott_lap.figura == "9":
+                        allapot = "kilences"
                     else:
                         allapot = "bot"
             elif allapot == "bot":
@@ -204,6 +209,10 @@ while fut:
 
             elif allapot == "nyolcas_nez":
                 felforditott = None
+
+            #kilences
+            elif allapot == "kilences":
+                x = 172
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
@@ -241,7 +250,7 @@ while fut:
                     pablozo = "bot"
 
             if pablozo == "en":
-                allapot = "vege"
+                i == felforditott or allapot == "vege"
             else:
                 allapot = "huzas"
 
