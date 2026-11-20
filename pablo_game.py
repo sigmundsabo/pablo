@@ -250,7 +250,7 @@ while fut:
                     pablozo = "bot"
 
             if pablozo == "en":
-                i == felforditott or allapot == "vege"
+                allapot = "vege"
             else:
                 allapot = "huzas"
 
@@ -275,7 +275,7 @@ while fut:
 
     for i in range(len(bot.lapok)):
         x = 172 + i * 120
-        if allapot == "vege":
+        if i == felforditott or allapot == "vege":
             kep = lap_kep(bot.lapok[i])
         else:
             kep = hatlap_kep
