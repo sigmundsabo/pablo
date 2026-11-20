@@ -275,7 +275,7 @@ while fut:
 
     for i in range(len(bot.lapok)):
         x = 172 + i * 120
-        if i == felforditott or allapot == "vege":
+        if i == bot_felforditott or allapot == "vege":
             kep = lap_kep(bot.lapok[i])
         else:
             kep = hatlap_kep
