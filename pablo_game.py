@@ -243,6 +243,15 @@ while fut:
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
+    if allapot == "nyolcas_nez" and felforditott == None:
+        allapot = "bot"
+
+    if bot_felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
+        bot_felforditott = None
+
+    if allapot == "kilences_nez" and bot_felforditott == None:
+        allapot = "bot"
+
     #bot
     if allapot == "bot":
         if pablozo == "bot":
@@ -284,9 +293,6 @@ while fut:
 
     if allapot == "nezes" and nezes_maradt == 0 and felforditott == None:
         allapot = "huzas"
-
-    if allapot == "nyolcas_nez" and felforditott == None:
-        allapot = "bot"
 
     #Rajzolás
     ablak.fill((20, 100, 50))
