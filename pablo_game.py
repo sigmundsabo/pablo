@@ -221,6 +221,25 @@ while fut:
                         allapot = "kilences_nez"
                         break
 
+            elif allapot == "kilences_nez":
+                for i in range(len(bot.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 70, 96, 96)
+                    if terulet.collidepoint(esemeny.pos) and i == bot_felforditott:
+                        bot_felforditott = None
+                        break
+                for i in range(len(en.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 338, 96, 96)
+                    if terulet.collidepoint(esemeny.pos):
+                        pohar = en.lapok[i]
+                        en.lapok[i] = bot.lapok[bot_felforditott]
+                        bot.lapok[bot_felforditott] = pohar
+                        en.ismert[i] = True
+                        bot.ismert[bot_felforditott] = False
+                        bot_felforditott = None
+                        break
+
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
 
