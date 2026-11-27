@@ -212,7 +212,14 @@ while fut:
 
             #kilences
             elif allapot == "kilences":
-                x = 172
+                for i in range(len(bot.lapok)):
+                    x = 172 + i * 120
+                    terulet = pygame.Rect(x, 70, 96, 96)
+                    if terulet.collidepoint(esemeny.pos):
+                        bot_felforditott = i
+                        felforditas_ideje = pygame.time.get_ticks()
+                        allapot = "kilences_nez"
+                        break
 
     if felforditott != None and pygame.time.get_ticks() - felforditas_ideje > 10000:
         felforditott = None
