@@ -274,6 +274,22 @@ while fut:
                 eldobott = bot_huzott
             dobopakli.append(eldobott)
 
+            if eldobott.figura == "8":
+                for i in range(len(bot.lapok)):
+                    if not bot.ismert[i]:
+                        bot.megnez(i)
+                        break
+
+            if eldobott.figura == "9":
+                r_lap = random.randint(len(en.lapok))
+                legrosszabb_ertek = bot.lapok[i].pontertek()
+                if legrosszabb_ertek > r_lap:
+                    pohar = en.lapok[r_lap]
+                    en.lapok[r_lap] = bot.lapok[legrosszabb_ertek]
+                    bot.ismert[r_lap] = True
+                    en.ismert[legrosszabb_ertek] = False
+
+
             if pablozo == None:
                 becsult = 0
                 for i in range(len(bot.lapok)):
