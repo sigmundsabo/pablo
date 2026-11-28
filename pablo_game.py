@@ -280,7 +280,8 @@ while fut:
                 for i in range(len(bot.lapok)):
                     if not bot.ismert[i]:
                         bot.megnez(i)
-                        bot_uzenet_ideje = pygame.get_ticks()
+                        bot_uzenet = "A bot megnézte egy lapját!"
+                        bot_uzenet_ideje = pygame.time.get_ticks()
                         break
 
             if eldobott.figura == "9":
@@ -297,7 +298,8 @@ while fut:
                     bot.lapok[legrosszabb_index] = pohar
                     bot.ismert[legrosszabb_index] = True
                     en.ismert[r_lap] = False
-                    bot_uzenet_ideje = pygame.get_ticks()
+                    bot_uzenet = "A bot lapot cserélt veled; " + str(r_lap + 1)
+                    bot_uzenet_ideje = pygame.time.get_ticks()
 
 
             if pablozo == None:
@@ -392,9 +394,12 @@ while fut:
         felirat5 = betu.render("A bot bemondta: PABLO! Ez az utolsó köröd.", True, (255, 255, 255))
         ablak.blit(felirat5, (20, 36))
 
-    if allapot not None:
-        
-        
+    if bot_uzenet != None:
+        if pygame.time.get_ticks() - bot_uzenet_ideje > 3000:
+            bot_uzenet = None
+        else:
+            felirat6 = betu.render(bot_uzenet, True, (255, 255, 255))
+            ablak.blit(felirat6, (20, 56))
 
     pygame.display.flip()
     ora.tick(60)
