@@ -281,13 +281,19 @@ while fut:
                         break
 
             if eldobott.figura == "9":
-                r_lap = random.randint(len(en.lapok))
-                legrosszabb_ertek = bot.lapok[i].pontertek()
-                if legrosszabb_ertek > r_lap:
+                r_lap = random.randint(0, len(en.lapok) -1)
+                legrosszabb_index = None
+                legrosszabb_ertek = -999
+                for i in range(len(bot.lapok)):
+                    if bot.ismert[i] and bot.lapok[i].pontertek() > legrosszabb_ertek:
+                        legrosszabb_index = i
+                        legrosszabb_ertek = bot.lapok[i].pontertek()
+                if legrosszabb_index != None and legrosszabb_ertek > en.lapok[r_lap].pontertek():
                     pohar = en.lapok[r_lap]
-                    en.lapok[r_lap] = bot.lapok[legrosszabb_ertek]
-                    bot.ismert[r_lap] = True
-                    en.ismert[legrosszabb_ertek] = False
+                    en.lapok[r_lap] = bot.lapok[legrosszabb_index]
+                    bot.lapok[legrosszabb_index] = pohar
+                    bot.ismert[legrosszabb_index] = True
+                    en.ismert[r_lap] = False
 
 
             if pablozo == None:
