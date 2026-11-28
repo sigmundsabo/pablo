@@ -298,7 +298,7 @@ while fut:
                     bot.lapok[legrosszabb_index] = pohar
                     bot.ismert[legrosszabb_index] = True
                     en.ismert[r_lap] = False
-                    bot_uzenet = "A bot lapot cserélt veled; " + str(r_lap + 1)
+                    bot_uzenet = "A bot kicserélte a(z) " + str(r_lap + 1) + ". lapodat"
                     bot_uzenet_ideje = pygame.time.get_ticks()
 
 
