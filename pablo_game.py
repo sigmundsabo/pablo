@@ -119,6 +119,8 @@ betu = pygame.font.SysFont("arial", 12)
 bot_kezdete = None
 pablozo = None
 pablo_gomb = pygame.Rect(560, 210, 120, 36)
+bot_uzenet = None
+bot_uzenet_ideje = 0
 uzenetek = {
     "nezes": "Nézz meg 2 lapot! Kattints rájuk.",
     "huzas": "Húzz egy lapot a pakliból!",
@@ -387,6 +389,10 @@ while fut:
     if pablozo == "bot" and allapot != "vege":
         felirat5 = betu.render("A bot bemondta: PABLO! Ez az utolsó köröd.", True, (255, 255, 255))
         ablak.blit(felirat5, (20, 36))
+
+    if allapot not None:
+        
+        
 
     pygame.display.flip()
     ora.tick(60)
