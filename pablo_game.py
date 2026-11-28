@@ -280,6 +280,7 @@ while fut:
                 for i in range(len(bot.lapok)):
                     if not bot.ismert[i]:
                         bot.megnez(i)
+                        bot_uzenet_ideje = pygame.get_ticks()
                         break
 
             if eldobott.figura == "9":
@@ -296,6 +297,7 @@ while fut:
                     bot.lapok[legrosszabb_index] = pohar
                     bot.ismert[legrosszabb_index] = True
                     en.ismert[r_lap] = False
+                    bot_uzenet_ideje = pygame.get_ticks()
 
 
             if pablozo == None:
